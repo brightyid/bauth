@@ -14,19 +14,17 @@ class InstallBAuth extends Command
 
     public function handle()
     {
-        $this->info('Installing BAuth...');
+        $endpoint = $this->ask('[?] What is the BAuth endpoint? (default: http://localhost:8000/api/v1)');
 
-        $endpoint = $this->ask('What is the BAuth endpoint? (default: http://localhost:8000/api/v1)');
-
-        if ($endpoint) {
+        if ($endpoint == '' || $endpoint == null) {
             $this->addEnvVariable('BAUTH_ENDPOINT', $endpoint);
         } else {
-            $this->addEnvVariable('BAUTH_ENDPOINT', 'http://localhost:8000/api/v1');
+            $this->addEnvVariable('BAUTH_ENDPOINT', '');
         }
 
         $this->copyFile(__DIR__ . '/../../config/bauth.php', 'config/bauth.php');
 
-        $this->info('Installed BAuth');
+        $this->info("\n\n[+] BAuth installed successfully!");
     }
 
     function addEnvVariable($variable, $value, $envFilePath = '.env')
@@ -49,18 +47,18 @@ class InstallBAuth extends Command
     function copyFile($source, $destination)
     {
         if (file_exists(base_path($destination))) {
-            $this->info('File ' . $destination . ' already exists. Do you want to rewrite it?');
-            $answer = $this->choice('Choose an option', ['yes', 'no'], 1);
+            $this->info('[+] File ' . $destination . ' already exists. Do you want to rewrite it?');
+            $answer = $this->choice('[?] Choose an option', ['yes', 'no'], 1);
 
             if ($answer == 'yes' || $answer == 'y') {
                 copy($source, base_path($destination));
-                $this->info('File ' . $destination . ' has been rewritten');
+                $this->info('[+] File ' . $destination . ' has been rewritten');
             } else {
-                $this->info('File ' . $destination . ' has not been rewritten');
+                $this->info('[+] File ' . $destination . ' has not been rewritten');
             }
         } else {
             copy($source, base_path($destination));
-            $this->info('File ' . $destination . ' has been created');
+            $this->info('[+] File ' . $destination . ' has been created');
         }
     }
 }
