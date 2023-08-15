@@ -27,11 +27,11 @@ class BAuth
             $response = $bauth->json();
 
             if (!$bauth->ok()) {
-                throw new \Exception($response['message']);
+                throw new \Exception('Unauthorized');
             }
 
             $request->merge([
-                'user' => $response
+                'user' => collect($response)
             ]);
 
             return $next($request);
