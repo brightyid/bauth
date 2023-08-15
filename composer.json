@@ -1,0 +1,20 @@
+{
+    "name": "brightyindonesia/bauth",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Brighty\\BAuth\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "eggy4prlnt",
+            "email": "pennywise.txt@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^8.7",
+        "phpunit/phpunit": "^10.3"
+    }
+}
