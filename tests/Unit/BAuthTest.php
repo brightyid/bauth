@@ -3,7 +3,7 @@
 namespace Brighty\BAuth\Tests\Feature;
 
 use Brighty\BAuth\Facades\BAuth;
-use Brighty\BAuth\Tests\TestCase;
+use Anik\Testbench\TestCase;
 
 class BAuthTest extends TestCase
 {
