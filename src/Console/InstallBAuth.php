@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 class InstallBAuth extends Command
 {
 
-    protected $signature = 'bauth:install {--endpoint? : The BAuth endpoint}';
+    protected $signature = 'bauth:install';
 
     protected $description = 'Install the BAuth package';
 
@@ -16,39 +16,41 @@ class InstallBAuth extends Command
     {
         $this->info('Installing BAuth...');
 
-        if ($this->option('endpoint')) {
-            $this->setEnv('BAUTH_ENDPOINT', $this->option('endpoint'));
-        } else {
-            $endpoint = $this->ask('What is the BAuth endpoint? (default: http://localhost:8000/api/v1)');
+        $endpoint = $this->ask('What is the BAuth endpoint? (default: http://localhost:8000/api/v1)');
 
-            if ($endpoint) {
-                $this->setEnv('BAUTH_ENDPOINT', $endpoint);
-            }
+        if ($endpoint) {
+            $this->addEnvVariable('BAUTH_ENDPOINT', $endpoint);
+        } else {
+            $this->addEnvVariable('BAUTH_ENDPOINT', 'http://localhost:8000/api/v1');
         }
 
-
-        $this->call('vendor:publish', [
-            '--provider' => "Brighty\BAuth\BAuthServiceProvider",
-            '--tag' => "config",
-            '--force' => true,
-        ]);
+        $this->copyFile(__DIR__ . '/../../config/bauth.php', 'config/bauth.php');
 
         $this->info('Installed BAuth');
     }
 
-    protected function setEnv($key, $value)
+    function addEnvVariable($variable, $value, $envFilePath = '.env')
     {
-        file_put_contents($this->laravel->environmentFilePath(), preg_replace(
-            $this->keyReplacementPattern($key),
-            $key . '=' . $value,
-            file_get_contents($this->laravel->environmentFilePath())
-        ));
+        $currentEnv = file_get_contents(base_path() . '/' . $envFilePath);
+
+        $newLine = "$variable=$value";
+
+        if (strpos($currentEnv, "$variable=") === false) {
+            $newEnv = $currentEnv . "\n" . $newLine;
+
+            file_put_contents($envFilePath, $newEnv);
+
+            return true; // Variable added successfully
+        } else {
+            return false; // Variable already exists
+        }
     }
 
-    protected function keyReplacementPattern($key)
+    // copy file config
+    function copyFile($source, $destination)
     {
-        $escaped = preg_quote('=' . $this->laravel['config']['bauth.' . $key], '/');
-
-        return "/^{$key}{$escaped}/m";
+        if (!file_exists($destination)) {
+            copy($source, $destination);
+        }
     }
 }

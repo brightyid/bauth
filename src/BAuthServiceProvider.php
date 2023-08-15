@@ -2,9 +2,9 @@
 
 namespace Brighty\BAuth;
 
+use Brighty\BAuth\Console\InstallBAuth;
 use Brighty\BAuth\Http\Middleware\BAuthenticated;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Routing\Router;
 
 class BAuthServiceProvider extends ServiceProvider
 {
@@ -21,11 +21,13 @@ class BAuthServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/bauth.php' => config_path('bauth.php'),
+                __DIR__ . '/../config/bauth.php' => 'config/bauth.php',
             ], 'config');
+            $this->commands([
+                InstallBAuth::class,
+            ]);
         }
 
-        $router = $this->app->make(Router::class);
-        $router->aliasMiddleware('bauth', BAuthenticated::class);
+        $this->app['router']->aliasMiddleware('bauth', BAuthenticated::class);
     }
 }
