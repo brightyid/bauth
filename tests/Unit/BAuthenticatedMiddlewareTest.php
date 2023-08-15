@@ -2,9 +2,8 @@
 
 namespace Brighty\BAuth\Tests\Feature;
 
-use Brighty\BAuth\Facades\BAuth;
 use Brighty\BAuth\Http\Middleware\BAuthenticated;
-use Brighty\BAuth\Tests\TestCase;
+use Anik\Testbench\TestCase;
 use Illuminate\Http\Request;
 
 class BAuthenticatedMiddlewareTest extends TestCase

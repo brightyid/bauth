@@ -38,17 +38,14 @@ class InstallBAuth extends Command
 
     protected function setEnv($key, $value)
     {
-        file_put_contents($this->laravel->environmentFilePath(), preg_replace(
-            $this->keyReplacementPattern($key),
-            $key . '=' . $value,
-            file_get_contents($this->laravel->environmentFilePath())
-        ));
-    }
+        $path = base_path('.env');
 
-    protected function keyReplacementPattern($key)
-    {
-        $escaped = preg_quote('=' . $this->laravel['config']['bauth.' . $key], '/');
-
-        return "/^{$key}{$escaped}/m";
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                $key . '=' . env($key),
+                $key . '=' . $value,
+                file_get_contents($path)
+            ));
+        }
     }
 }

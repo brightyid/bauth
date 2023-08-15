@@ -20,7 +20,7 @@ class BAuthenticated
             $bearer = $request->bearerToken();
 
             if (!$bearer) {
-                throw new \Exception('Unauthorized');
+                throw new \Exception('Token not found');
             }
 
             $bauth = BAuth::set($bearer)->user();
