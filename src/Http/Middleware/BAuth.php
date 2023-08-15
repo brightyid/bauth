@@ -2,7 +2,7 @@
 
 namespace Brighty\BAuth\Http\Middleware;
 
-use Brighty\BAuth\Facades\Auth;
+use Brighty\BAuth\Auth;
 use Closure;
 
 class BAuth

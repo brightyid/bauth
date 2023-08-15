@@ -28,7 +28,7 @@ class Auth
      * Set the API Token
      *
      * @param string $apiToken
-     * @return void
+     * @return \Brighty\BAuth\Auth $auth
      */
     public static function set($apiToken)
     {
@@ -38,7 +38,7 @@ class Auth
     /**
      * Check if the token is valid
      *
-     * @return string
+     * @return \Illuminate\Http\Client\Response $response
      */
     public function validate()
     {
@@ -52,7 +52,7 @@ class Auth
     /**
      * Get the user data
      *
-     * @return string
+     * @return \Illuminate\Http\Client\Response $response
      */
     public function user()
     {
