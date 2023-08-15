@@ -14,9 +14,9 @@ class InstallBAuth extends Command
 
     public function handle()
     {
-        $endpoint = $this->ask('[?] What is the BAuth endpoint? (default: http://localhost:8000/api/v1)');
+        $endpoint = $this->ask('[?] What is the BAuth endpoint? (default: http://localhost:8000/api/v1)', false);
 
-        if ($endpoint == '' || $endpoint == null) {
+        if ($endpoint !== false) {
             $this->addEnvVariable('BAUTH_ENDPOINT', $endpoint);
         } else {
             $this->addEnvVariable('BAUTH_ENDPOINT', '');
@@ -24,7 +24,7 @@ class InstallBAuth extends Command
 
         $this->copyFile(__DIR__ . '/../../config/bauth.php', 'config/bauth.php');
 
-        $this->info("\n\n[+] BAuth installed successfully!");
+        $this->info("\n[+] BAuth installed successfully!");
     }
 
     function addEnvVariable($variable, $value, $envFilePath = '.env')
@@ -34,7 +34,7 @@ class InstallBAuth extends Command
         $newLine = "$variable=$value";
 
         if (strpos($currentEnv, "$variable=") === false) {
-            $newEnv = $currentEnv . "\n" . $newLine;
+            $newEnv = $currentEnv . "\n\n" . $newLine;
 
             file_put_contents($envFilePath, $newEnv);
 
