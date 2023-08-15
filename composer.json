@@ -24,7 +24,7 @@
     "require-dev": {
         "phpunit/phpunit": "^10.3",
         "guzzlehttp/guzzle": "^7.7",
-        "anik/testbench-lumen": "^2.0"
+        "orchestra/testbench": "^8.7"
     },
     "extra": {
         "laravel": {

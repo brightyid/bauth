@@ -40,17 +40,27 @@ class InstallBAuth extends Command
 
             file_put_contents($envFilePath, $newEnv);
 
-            return true; // Variable added successfully
+            return true;
         } else {
-            return false; // Variable already exists
+            return false;
         }
     }
 
-    // copy file config
     function copyFile($source, $destination)
     {
-        if (!file_exists($destination)) {
-            copy($source, $destination);
+        if (file_exists(base_path($destination))) {
+            $this->info('File ' . $destination . ' already exists. Do you want to rewrite it?');
+            $answer = $this->choice('Choose an option', ['yes', 'no'], 1);
+
+            if ($answer == 'yes' || $answer == 'y') {
+                copy($source, base_path($destination));
+                $this->info('File ' . $destination . ' has been rewritten');
+            } else {
+                $this->info('File ' . $destination . ' has not been rewritten');
+            }
+        } else {
+            copy($source, base_path($destination));
+            $this->info('File ' . $destination . ' has been created');
         }
     }
 }

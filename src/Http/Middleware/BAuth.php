@@ -2,10 +2,10 @@
 
 namespace Brighty\BAuth\Http\Middleware;
 
-use Brighty\BAuth\Facades\BAuth;
+use Brighty\BAuth\Facades\Auth;
 use Closure;
 
-class BAuthenticated
+class BAuth
 {
     /**
      * Handle an incoming request.
@@ -23,10 +23,15 @@ class BAuthenticated
                 throw new \Exception('Token not found');
             }
 
-            $bauth = BAuth::set($bearer)->user();
+            $bauth = Auth::set($bearer)->user();
+            $response = $bauth->json();
+
+            if (!$bauth->ok()) {
+                throw new \Exception($response['message']);
+            }
 
             $request->merge([
-                'user' => $bauth->json()
+                'user' => $response
             ]);
 
             return $next($request);

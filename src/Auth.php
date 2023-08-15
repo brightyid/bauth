@@ -4,7 +4,7 @@ namespace Brighty\BAuth;
 
 use Illuminate\Support\Facades\Http;
 
-class BAuth
+class Auth
 {
 
     /**
