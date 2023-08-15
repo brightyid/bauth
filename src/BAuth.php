@@ -12,7 +12,7 @@ class BAuth
      *
      * @var string
      */
-    protected $apiToken;
+    public $apiToken;
 
     /**
      * Create a new BAuth instance.
@@ -46,7 +46,7 @@ class BAuth
             'Authorization' => 'Bearer ' . $this->apiToken,
         ])->get(config('bauth.endpoint') . '/auth/validate');
 
-        return $response->json();
+        return $response;
     }
 
     /**
@@ -60,6 +60,6 @@ class BAuth
             'Authorization' => 'Bearer ' . $this->apiToken,
         ])->get(config('bauth.endpoint') . '/users/me');
 
-        return $response->json();
+        return $response;
     }
 }

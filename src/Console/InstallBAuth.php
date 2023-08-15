@@ -27,7 +27,6 @@ class InstallBAuth extends Command
         }
 
 
-
         $this->call('vendor:publish', [
             '--provider' => "Brighty\BAuth\BAuthServiceProvider",
             '--tag' => "config",
